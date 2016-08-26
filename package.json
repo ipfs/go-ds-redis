@@ -1,0 +1,22 @@
+{
+  "author": "whyrusleeping",
+  "bugs": {
+    "url": "https://github.com/ipfs/go-ds-redis"
+  },
+  "gx": {
+    "dvcsimport": "github.com/ipfs/go-ds-redis"
+  },
+  "gxDependencies": [
+    {
+      "author": "fzzy",
+      "hash": "QmTsDAZ4xQsVkTwR299nBfYtjrbG9B1pJcheKodubm99Wr",
+      "name": "radix",
+      "version": "0.5.6"
+    }
+  ],
+  "gxVersion": "0.8.0",
+  "language": "go",
+  "license": "",
+  "name": "go-ds-redis",
+  "version": "0.0.0"
+}
