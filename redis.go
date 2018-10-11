@@ -35,16 +35,11 @@ type Datastore struct {
 	ttl    time.Duration
 }
 
-func (ds *Datastore) Put(key datastore.Key, value interface{}) error {
+func (ds *Datastore) Put(key datastore.Key, value []byte) error {
 	ds.mu.Lock()
 	defer ds.mu.Unlock()
 
-	data, ok := value.([]byte)
-	if !ok {
-		return ErrInvalidType
-	}
-
-	ds.client.Append("SET", key.String(), data)
+	ds.client.Append("SET", key.String(), value)
 	if ds.ttl != 0 {
 		ds.client.Append("EXPIRE", key.String(), ds.ttl.Seconds())
 	}
@@ -59,7 +54,7 @@ func (ds *Datastore) Put(key datastore.Key, value interface{}) error {
 	return nil
 }
 
-func (ds *Datastore) Get(key datastore.Key) (value interface{}, err error) {
+func (ds *Datastore) Get(key datastore.Key) (value []byte, err error) {
 	ds.mu.Lock()
 	defer ds.mu.Unlock()
 	return ds.client.Cmd("GET", key.String()).Bytes()

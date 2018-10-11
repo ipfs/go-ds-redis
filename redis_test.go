@@ -26,7 +26,7 @@ func TestPutGetBytes(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if bytes.Compare(v.([]byte), val) != 0 {
+	if bytes.Compare(v, val) != 0 {
 		t.Fail()
 	}
 }
