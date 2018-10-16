@@ -12,6 +12,12 @@
       "hash": "QmTsDAZ4xQsVkTwR299nBfYtjrbG9B1pJcheKodubm99Wr",
       "name": "radix",
       "version": "0.5.6"
+    },
+    {
+      "author": "jbenet",
+      "hash": "QmaRb5yNXKonhbkpNxNawoydk4N6es6b4fPj19sjEKsh5D",
+      "name": "go-datastore",
+      "version": "3.4.0"
     }
   ],
   "gxVersion": "0.8.0",
@@ -20,3 +26,4 @@
   "name": "go-ds-redis",
   "version": "0.0.0"
 }
+

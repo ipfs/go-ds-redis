@@ -56,6 +56,28 @@ func TestHasBytes(t *testing.T) {
 	}
 }
 
+func TestGetSize(t *testing.T) {
+	client := clientOrAbort(t)
+	ds, err := NewDatastore(client)
+	if err != nil {
+		t.Fatal(err)
+	}
+	key, val := datastore.NewKey("foo"), []byte("bar")
+	_, err = ds.GetSize(key)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	dstest.Nil(ds.Put(key, val), t)
+	size, err := ds.GetSize(key)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if size != len("bar") {
+		t.Fail()
+	}
+}
+
 func TestDelete(t *testing.T) {
 	client := clientOrAbort(t)
 	ds, err := NewDatastore(client)
