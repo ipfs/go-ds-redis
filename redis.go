@@ -60,6 +60,12 @@ func (ds *Datastore) Get(key datastore.Key) (value []byte, err error) {
 	return ds.client.Cmd("GET", key.String()).Bytes()
 }
 
+func (ds *Datastore) GetSize(key datastore.Key) (size int, err error) {
+	ds.mu.Lock()
+	defer ds.mu.Unlock()
+	return ds.client.Cmd("STRLEN", key.String()).Int()
+}
+
 func (ds *Datastore) Has(key datastore.Key) (exists bool, err error) {
 	ds.mu.Lock()
 	defer ds.mu.Unlock()
