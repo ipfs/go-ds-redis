@@ -11,9 +11,6 @@ import (
 	query "github.com/ipfs/go-datastore/query"
 )
 
-var _ datastore.Datastore = &Datastore{}
-var _ datastore.ThreadSafeDatastore = &Datastore{}
-
 var ErrInvalidType = errors.New("redis datastore: invalid type error. this datastore only supports []byte values")
 
 func NewExpiringDatastore(client *redis.Client, ttl time.Duration) (*Datastore, error) {
@@ -81,8 +78,6 @@ func (ds *Datastore) Delete(key datastore.Key) (err error) {
 func (ds *Datastore) Query(q query.Query) (query.Results, error) {
 	return nil, errors.New("TODO implement query for redis datastore?")
 }
-
-func (ds *Datastore) IsThreadSafe() {}
 
 func (ds *Datastore) Batch() (datastore.Batch, error) {
 	return nil, datastore.ErrBatchUnsupported
