@@ -51,6 +51,10 @@ func (ds *Datastore) Put(key datastore.Key, value []byte) error {
 	return nil
 }
 
+func (ds *Datastore) Sync(prefix datastore.Key) error {
+	return nil
+}
+
 func (ds *Datastore) Get(key datastore.Key) (value []byte, err error) {
 	ds.mu.Lock()
 	defer ds.mu.Unlock()
