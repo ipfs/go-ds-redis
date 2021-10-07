@@ -6,4 +6,4 @@ require (
 	github.com/stretchr/testify v1.3.0 // indirect
 )
 
-go 1.13
+go 1.16
