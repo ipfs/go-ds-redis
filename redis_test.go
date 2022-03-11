@@ -2,6 +2,7 @@ package redis
 
 import (
 	"bytes"
+	"context"
 	"os"
 	"testing"
 	"time"
@@ -14,6 +15,8 @@ import (
 
 const RedisEnv = "REDIS_DATASTORE_TEST_HOST"
 
+var bg = context.Background()
+
 func TestPutGetBytes(t *testing.T) {
 	client := clientOrAbort(t)
 	ds, err := NewDatastore(client)
@@ -21,8 +24,8 @@ func TestPutGetBytes(t *testing.T) {
 		t.Fatal(err)
 	}
 	key, val := datastore.NewKey("foo"), []byte("bar")
-	dstest.Nil(ds.Put(key, val), t)
-	v, err := ds.Get(key)
+	dstest.Nil(ds.Put(bg, key, val), t)
+	v, err := ds.Get(bg, key)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -38,7 +41,7 @@ func TestHasBytes(t *testing.T) {
 		t.Fatal(err)
 	}
 	key, val := datastore.NewKey("foo"), []byte("bar")
-	has, err := ds.Has(key)
+	has, err := ds.Has(bg, key)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -46,8 +49,8 @@ func TestHasBytes(t *testing.T) {
 		t.Fail()
 	}
 
-	dstest.Nil(ds.Put(key, val), t)
-	hasAfterPut, err := ds.Has(key)
+	dstest.Nil(ds.Put(bg, key, val), t)
+	hasAfterPut, err := ds.Has(bg, key)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -63,13 +66,13 @@ func TestGetSize(t *testing.T) {
 		t.Fatal(err)
 	}
 	key, val := datastore.NewKey("foo"), []byte("bar")
-	_, err = ds.GetSize(key)
+	_, err = ds.GetSize(bg, key)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	dstest.Nil(ds.Put(key, val), t)
-	size, err := ds.GetSize(key)
+	dstest.Nil(ds.Put(bg, key, val), t)
+	size, err := ds.GetSize(bg, key)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -85,10 +88,10 @@ func TestDelete(t *testing.T) {
 		t.Fatal(err)
 	}
 	key, val := datastore.NewKey("foo"), []byte("bar")
-	dstest.Nil(ds.Put(key, val), t)
-	dstest.Nil(ds.Delete(key), t)
+	dstest.Nil(ds.Put(bg, key, val), t)
+	dstest.Nil(ds.Delete(bg, key), t)
 
-	hasAfterDelete, err := ds.Has(key)
+	hasAfterDelete, err := ds.Has(bg, key)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -105,11 +108,11 @@ func TestExpiry(t *testing.T) {
 		t.Fatal(err)
 	}
 	key, val := datastore.NewKey("foo"), []byte("bar")
-	dstest.Nil(ds.Put(key, val), t)
+	dstest.Nil(ds.Put(bg, key, val), t)
 	time.Sleep(ttl + 1*time.Second)
-	dstest.Nil(ds.Delete(key), t)
+	dstest.Nil(ds.Delete(bg, key), t)
 
-	hasAfterExpiration, err := ds.Has(key)
+	hasAfterExpiration, err := ds.Has(bg, key)
 	if err != nil {
 		t.Fatal(err)
 	}
